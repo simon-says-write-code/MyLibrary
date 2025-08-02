@@ -22,4 +22,22 @@ public record EventDetails
     /// </summary>
     /// <example>Joe Bloggs</example>
     public string? ProfileName { get; init; }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="EventDetails"/> class with default values.
+    /// </summary>
+    public EventDetails()
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="EventDetails"/> class with details from the supplied <paramref name="eventDetails"/> instance.
+    /// </summary>
+    /// <param name="eventDetails">The event details being copied.</param>
+    public EventDetails(EventDetails eventDetails)
+    {
+        Timestamp = eventDetails.Timestamp;
+        ProfileId = eventDetails.ProfileId;
+        ProfileName = eventDetails.ProfileName;
+    }
 }

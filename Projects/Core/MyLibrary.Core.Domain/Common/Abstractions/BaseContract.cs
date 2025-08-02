@@ -51,18 +51,30 @@ public abstract record BaseContract<TId>
         Id = id;
     }
 
+    /// <summary>
+    /// Set the created information for the resource, including the timestamp and profile details.
+    /// </summary>
+    /// <param name="eventDetails">The event details.</param>
+    /// <exception cref="ArgumentException">Thrown if the created info is already set.</exception>
     public void SetCreatedInfo(EventDetails eventDetails)
     {
         if (Created is not null)
-            throw new ArgumentException("Created information is already set.");
+            throw new ArgumentException("Created information is already set.", nameof(eventDetails));
 
-        Created = eventDetails;
-        LastModified = eventDetails;
+        Created = new EventDetails(eventDetails);
+        LastModified = Created;
     }
 
+    /// <summary>
+    /// Set the last modified information for the resource, including the timestamp and profile details.
+    /// </summary>
+    /// <param name="eventDetails">The event details.</param>
+    /// <exception cref="ArgumentException">Thrown if the given details has a timestamp earlier than the current timestamp.</exception>
     public void SetLastModifiedInfo(EventDetails eventDetails)
     {
+        if (LastModified?.Timestamp >= eventDetails.Timestamp)
+            throw new ArgumentException("Last modified information must have a later dateTime than the current last modified time.", nameof(eventDetails));
 
-
+        LastModified = new EventDetails(eventDetails);
     }
 }
